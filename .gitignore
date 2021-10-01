@@ -1,0 +1,7 @@
+# API
+API/__pycache__
+API/database.db
+
+# Client
+client/node_modules
+client/.eslintcache

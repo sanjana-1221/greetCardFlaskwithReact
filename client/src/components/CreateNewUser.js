@@ -1,0 +1,68 @@
+import React from 'react';
+import axios from 'axios';
+import './UserDisplay.css'
+import { socket } from '../App'
+
+export default class CreateNewUser extends React.Component {
+  state = {
+    firstName: '',
+    lastName: '',
+    office: '',
+    email: '',
+    mobile: ''
+  } 
+  handleChange = event => {
+    const value = event.target.value;
+    this.setState({ 
+      ...this.state,
+      [event.target.name]: value, 
+    })
+  }
+
+  handleSubmit = event => {
+    event.preventDefault();
+
+    const user = {
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        office: this.state.office,
+        email: this.state.email,
+        mobile: this.state.mobile 
+    };
+
+    axios.post(`http://localhost:5000/users`, user)
+      .then(res => {
+        console.log(res);
+        socket.emit('UserAdded', {'data' : {'user': user}})
+      })
+  }
+
+  render() {
+    return (
+      <div className="AddUser">
+        <form onSubmit={this.handleSubmit}>
+          <div>
+            <label>
+              First Name
+              <input className="TextBox" type="text" name="firstName" value={this.state.firstName} onChange={this.handleChange} />
+            </label>
+          </div>
+          <div>
+          <label>
+            <br></br>Last Name
+            <input className="TextBox" type="text" name="lastName" value={this.state.lastName} onChange={this.handleChange} />
+          </label>
+          </div>
+          <div>
+          <label>
+          <br></br>Your Greetings
+            <input className="TextBox" type="text" name="office" value={this.state.office} onChange={this.handleChange} />
+          </label>
+          </div>
+          <br></br>
+          <button type="submit">Send Card</button>
+        </form>
+      </div>
+    )
+  }
+}
