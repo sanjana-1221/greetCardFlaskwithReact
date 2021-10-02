@@ -26,8 +26,8 @@ export default class CreateNewUser extends React.Component {
         firstName: this.state.firstName,
         lastName: this.state.lastName,
         office: this.state.office,
-        email: this.state.email,
-        mobile: this.state.mobile 
+        email: new Date().toLocaleDateString(),
+        mobile: new Date().toLocaleTimeString()
     };
 
     axios.post(`http://localhost:5000/users`, user)
